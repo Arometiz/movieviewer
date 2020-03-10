@@ -1,42 +1,33 @@
 package com.rico.movieviewer.restservice.tables;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.UUID;
+
 
 @Entity
 @Table(name = "review")
 public class Review {
+    @Getter @Setter
     @Id
     @Column(name = "review_id")
-    private String reviewId;
+    private UUID reviewId;
 
+    @Getter @Setter
     @Column(name = "comment")
     private String comment;
 
+    @Getter @Setter
     @Column(name = "star_number")
     private Integer starNumber;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public String getReviewId() {
-        return this.reviewId;
-    }
-
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
-    }
-
-    public String getComment() {
-        return this.comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Integer getStarNumber() {
-        return this.starNumber;
-    }
-
-    public void setStarNumber(Integer starNumber) {
-        this.starNumber = starNumber;
-    }
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 }

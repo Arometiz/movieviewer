@@ -1,31 +1,27 @@
 package com.rico.movieviewer.restservice.tables;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.Setter;
 import javax.persistence.*;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "role")
 public class Role {
+
+    @Getter @Setter
     @Id
     @Column(name = "role_id")
     private Integer roleId;
 
+    @Getter @Setter
     @Column(name = "name")
     private String name;
 
-
-    public Integer getRoleId() {
-        return this.roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Getter @Setter
+    @OneToMany(mappedBy = "role")
+    @JsonBackReference
+    private Set<User> users;
 }
