@@ -1,75 +1,44 @@
 package com.rico.movieviewer.restservice.tables;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.Set;
+import java.util.UUID;
+
 
 @Entity
 @Table(name = "user")
 public class User {
+    @Getter @Setter
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private UUID userId;
 
+    @Getter @Setter
     @Column(name = "username")
     private String username;
 
+    @Getter @Setter
     @Column(name = "password")
     private String password;
 
+    @Getter @Setter
     @Column(name = "firstname")
     private String firstname;
 
+    @Getter @Setter
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "role")
-    private Integer role;
+    @Getter @Setter
+    @ManyToOne
+    @JoinColumn(name = "role", referencedColumnName = "role_id")
+    private Role role;
 
+    @Getter @Setter
+    @OneToMany(mappedBy = "user")
+    private Set<Review> reviewSet;
 
-    public String getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstname() {
-        return this.firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return this.lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public Integer getRole() {
-        return this.role;
-    }
-
-    public void setRole(Integer role) {
-        this.role = role;
-    }
 }

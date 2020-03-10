@@ -1,53 +1,29 @@
 package com.rico.movieviewer.restservice.tables;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.UUID;
+
+@Getter @Setter
 @Entity
 @Table(name = "movie")
 public class Movie {
+    @Getter @Setter
     @Id
     @Column(name = "movie_id")
-    private String movieId;
+    private UUID movieId;
 
+    @Getter @Setter
     @Column(name = "name")
     private String name;
 
+    @Getter @Setter
     @Column(name = "movie_release")
     private java.sql.Date movieRelease;
 
+    @Getter @Setter
     @Column(name = "description")
     private String description;
-
-
-    public String getMovieId() {
-        return this.movieId;
-    }
-
-    public void setMovieId(String movieId) {
-        this.movieId = movieId;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public java.sql.Date getMovieRelease() {
-        return this.movieRelease;
-    }
-
-    public void setMovieRelease(java.sql.Date movieRelease) {
-        this.movieRelease = movieRelease;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
