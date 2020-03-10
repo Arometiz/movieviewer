@@ -1,9 +1,12 @@
 package com.rico.movieviewer.restservice.tables;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,7 +17,7 @@ public class User {
     @Getter @Setter
     @Id
     @Column(name = "user_id")
-    private UUID userId;
+    private String userId;
 
     @Getter @Setter
     @Column(name = "username")
@@ -34,11 +37,11 @@ public class User {
 
     @Getter @Setter
     @ManyToOne
-    @JoinColumn(name = "role", referencedColumnName = "role_id")
+    @JoinColumn(name = "role")
+    @JsonManagedReference
     private Role role;
 
-    @Getter @Setter
     @OneToMany(mappedBy = "user")
-    private Set<Review> reviewSet;
+    private Set<Review> reviews;
 
 }

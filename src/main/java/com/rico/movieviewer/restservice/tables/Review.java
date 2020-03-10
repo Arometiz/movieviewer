@@ -23,8 +23,11 @@ public class Review {
     @Column(name = "star_number")
     private Integer starNumber;
 
-    @Getter @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
 }

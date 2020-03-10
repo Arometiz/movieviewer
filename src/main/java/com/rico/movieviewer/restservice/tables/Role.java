@@ -1,5 +1,6 @@
 package com.rico.movieviewer.restservice.tables;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
@@ -21,5 +22,6 @@ public class Role {
 
     @Getter @Setter
     @OneToMany(mappedBy = "role")
-    private Set<User> user;
+    @JsonBackReference
+    private Set<User> users;
 }

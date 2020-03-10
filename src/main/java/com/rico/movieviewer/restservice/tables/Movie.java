@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter @Setter
@@ -26,4 +27,7 @@ public class Movie {
     @Getter @Setter
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "movie")
+    private Set<Review> reviews;
 }
