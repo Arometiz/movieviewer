@@ -14,7 +14,7 @@ public class Movie {
     @Getter @Setter
     @Id
     @Column(name = "movie_id")
-    private UUID movieId;
+    private String movieId;
 
     @Getter @Setter
     @Column(name = "name")
@@ -27,6 +27,10 @@ public class Movie {
     @Getter @Setter
     @Column(name = "description")
     private String description;
+
+    @Getter @Setter
+    @Column(name = "pending")
+    private boolean pending;
 
     @OneToMany(mappedBy = "movie")
     private Set<Review> reviews;
