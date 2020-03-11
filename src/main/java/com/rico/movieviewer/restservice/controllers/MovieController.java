@@ -44,7 +44,7 @@ public class MovieController {
 
     @ResponseBody
     @GetMapping(value = "/single-movie-image", produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getImageAsResource(@RequestParam(value = "movie_id")String movie_id) throws IOException {
+    public byte[] getImageByMovieId(@RequestParam(value = "movie_id")String movie_id) throws IOException {
         InputStream in = getClass()
                 .getResourceAsStream("/images/" + movieRepository.findById(movie_id).get().getName() + ".jpg");
         return IOUtils.toByteArray(in);
