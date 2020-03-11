@@ -2,12 +2,14 @@ package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,9 @@ public class MovieController {
 
     @Autowired
     private MovieRepository movieRepository;
+
+    @Autowired
+    private ServletContext servletContext;
 
     @GetMapping(value = "/all-approved-movies")
     public List<Movie> getAllMovies(){
@@ -32,8 +37,16 @@ public class MovieController {
         return pendingMovies;
     }
 
-    @GetMapping(value = "/single-movie")
+    @GetMapping(value = "/single-movie-data")
     public Movie getMovieById(@RequestParam(value = "movie_id")String movie_id){
         return movieRepository.findById(movie_id).get();
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/single-movie-image", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getImageAsResource(@RequestParam(value = "movie_id")String movie_id) throws IOException {
+        InputStream in = getClass()
+                .getResourceAsStream("/images/" + movieRepository.findById(movie_id).get().getName() + ".jpg");
+        return IOUtils.toByteArray(in);
     }
 }
