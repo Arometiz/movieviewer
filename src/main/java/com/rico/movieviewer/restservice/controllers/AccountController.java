@@ -15,6 +15,7 @@ public class AccountController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
     private JwtProvider jwtProvider;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)

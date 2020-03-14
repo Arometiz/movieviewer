@@ -2,12 +2,14 @@ package com.rico.movieviewer.restservice.logic.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
+@Component
 public class JwtProvider {
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
