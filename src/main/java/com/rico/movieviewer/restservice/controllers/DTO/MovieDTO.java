@@ -3,7 +3,8 @@ package com.rico.movieviewer.restservice.controllers.DTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 public class MovieDTO {
 

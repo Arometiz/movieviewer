@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Getter @Setter
@@ -27,7 +28,7 @@ public class Movie {
 
     @Getter @Setter
     @Column(name = "movie_release")
-    private java.sql.Date movieRelease;
+    private Date movieRelease;
 
     @Getter @Setter
     @Column(name = "description")
