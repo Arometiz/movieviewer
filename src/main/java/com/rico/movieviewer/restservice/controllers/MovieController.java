@@ -1,5 +1,6 @@
 package com.rico.movieviewer.restservice.controllers;
 
+import com.rico.movieviewer.restservice.controllers.DTO.MovieDTO;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
 import org.apache.commons.io.IOUtils;
@@ -43,5 +44,27 @@ public class MovieController {
         InputStream in = getClass()
                 .getResourceAsStream("/images/" + movieRepository.findById(movie_id).get().getName() + ".jpg");
         return IOUtils.toByteArray(in);
+    }
+
+    @PostMapping(value = "/upload-movie")
+    public void uploadNewMovie(@RequestBody MovieDTO movieDTO){
+        Movie movie = new Movie();
+        movie.setName(movieDTO.getMovieName());
+        movie.setDescription(movieDTO.getDescription());
+        movie.setMovieRelease(movieDTO.getReleaseDate());
+        movie.setPending(true);
+        movieRepository.save(movie);
+    }
+
+    @PostMapping(value = "/approve-uploaded-movie")
+    public void approvedUploadedMovie(@RequestParam(value = "movie_id")String movie_id){
+        Movie movie = movieRepository.findById(movie_id).get();
+        movie.setPending(false);
+        movieRepository.save(movie);
+    }
+
+    @DeleteMapping(value = "/delete-uploaded-movie")
+    public void deleteUploadedMovie(@RequestParam(value = "movie_id")String movie_id){
+        movieRepository.delete(movieRepository.findById(movie_id).get());
     }
 }
