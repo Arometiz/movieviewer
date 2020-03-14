@@ -1,26 +1,23 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.repositories.UserRepository;
-import com.rico.movieviewer.restservice.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
 public class AccountController {
+    private static String rolePrefix = "ROLE_";
 
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping(value = "/getdata", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserInformation(@RequestParam(name = "userId") String userID){
-        User user = userRepository.findById(userID).get();
-        return user;
+    @PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String loginUser(String username, String password){
+        String token = null;
+        userRepository.findAll().forEach(user -> {if(user.getUsername().equals(username) && user.getPassword().equals(password)) /* create token */ });
+        return token;
     }
 }
