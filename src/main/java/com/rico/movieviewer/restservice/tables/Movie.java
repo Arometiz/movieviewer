@@ -1,19 +1,24 @@
 package com.rico.movieviewer.restservice.tables;
 
+import com.rico.movieviewer.restservice.controllers.DTO.MovieDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter @Setter
 @Entity
 @Table(name = "movie")
 public class Movie {
+
     @Getter @Setter
     @Id
     @Column(name = "movie_id")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid")
     private String movieId;
 
     @Getter @Setter
