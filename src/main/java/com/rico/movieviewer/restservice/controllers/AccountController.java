@@ -1,6 +1,8 @@
 package com.rico.movieviewer.restservice.controllers;
 
+import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
 import com.rico.movieviewer.restservice.repositories.UserRepository;
+import com.rico.movieviewer.restservice.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -9,15 +11,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 public class AccountController {
-    private static String rolePrefix = "ROLE_";
 
     @Autowired
     private UserRepository userRepository;
 
+    private JwtProvider jwtProvider = new JwtProvider();
+
     @PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
     public String loginUser(String username, String password){
-        String token = null;
-        userRepository.findAll().forEach(user -> {if(user.getUsername().equals(username) && user.getPassword().equals(password)) /* create token */ });
-        return token;
+        for(User user : userRepository.findAll()){
+            if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+                String rolePrefix = "ROLE_";
+                return jwtProvider.createToken(user.getUserId(), user.getUsername(), rolePrefix + user.getRole());
+            }
+        }
+        return null;
     }
 }
