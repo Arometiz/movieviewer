@@ -17,12 +17,13 @@ public class JwtProvider {
     @Value("${security.jwt.token.expire-length:5400000}")
     private long validityInMilliseconds = 54000000; // 1 hour
 
+
     @PostConstruct
-    protected void init(){
+    protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String user_id, String username, String role){
+    public String createToken(String user_id, String username, String role) {
         Claims claims = Jwts.claims().setId(user_id);
         claims.put("username", username);
         claims.put("role", role);
@@ -42,12 +43,12 @@ public class JwtProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String getUsernameFromToken(String token){
-        return (String)Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("username");
+    public String getUsernameFromToken(String token) {
+        return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("username");
     }
 
-    public String getRoleFromToken(String token){
-        return (String)Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("role");
+    public String getRoleFromToken(String token) {
+        return (String) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("role");
     }
 
     public String resolveToken(HttpServletRequest req) {
@@ -57,6 +58,7 @@ public class JwtProvider {
         }
         return null;
     }
+
 
     public boolean validateToken(String token) {
         try {

@@ -11,8 +11,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "movie")
 public class Movie {
-    @Getter @Setter
+
     @Id
+    @Getter @Setter
     @Column(name = "movie_id")
     private String movieId;
 

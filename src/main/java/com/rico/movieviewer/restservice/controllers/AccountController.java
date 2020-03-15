@@ -19,9 +19,9 @@ public class AccountController {
     private JwtProvider jwtProvider;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String loginUser(String username, String password){
-        for(User user : userRepository.findAll()){
-            if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+    public String loginUser(String username, String password) {
+        for (User user : userRepository.findAll()) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 String rolePrefix = "ROLE_";
                 return jwtProvider.createToken(user.getUserId(), user.getUsername(), rolePrefix + user.getRole());
             }
@@ -30,7 +30,7 @@ public class AccountController {
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String registerUser(){
+    public String registerUser() {
         return null;
     }
 }

@@ -25,13 +25,16 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
-            String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
-            try{
-                    jwtTokenProvider.validateToken(token);
+        String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
+        String path = ((HttpServletRequest) req).getRequestURI();
+        if(path.startsWith("/movie/")){
+            try {
+                jwtTokenProvider.validateToken(token);
             } catch (JwtException e) {
                 ((HttpServletResponse) res).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
                 return;
             }
+        }
         filterChain.doFilter(req, res);
     }
 }

@@ -3,16 +3,17 @@ package com.rico.movieviewer.restservice.tables;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
 
 
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role{
 
-    @Getter @Setter
     @Id
+    @Getter @Setter
     @Column(name = "role_id")
     private Integer roleId;
 
