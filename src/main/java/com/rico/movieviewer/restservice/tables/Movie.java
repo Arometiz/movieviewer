@@ -14,8 +14,8 @@ import java.util.Set;
 @Table(name = "movie")
 public class Movie {
 
-    @Getter @Setter
     @Id
+    @Getter @Setter
     @Column(name = "movie_id")
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid",

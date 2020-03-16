@@ -10,8 +10,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "review")
 public class Review {
-    @Getter @Setter
+
     @Id
+    @Getter @Setter
     @Column(name = "review_id")
     private UUID reviewId;
 

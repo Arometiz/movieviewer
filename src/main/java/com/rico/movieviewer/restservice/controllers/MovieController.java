@@ -6,6 +6,7 @@ import com.rico.movieviewer.restservice.tables.Movie;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,7 @@ public class MovieController {
         return approvedMovies;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping(value = "/all-pending-movies")
     public List<Movie> getAllPendingMovies(){
         ArrayList<Movie> pendingMovies = new ArrayList<Movie>();
