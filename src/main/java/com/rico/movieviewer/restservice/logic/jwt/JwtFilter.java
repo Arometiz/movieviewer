@@ -27,7 +27,7 @@ public class JwtFilter extends GenericFilterBean {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
         String path = ((HttpServletRequest) req).getRequestURI();
-        if(path.startsWith("/movie/")){
+        if(!path.startsWith("/user/")){
             try {
                 jwtTokenProvider.validateToken(token);
             } catch (JwtException e) {

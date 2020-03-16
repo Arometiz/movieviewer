@@ -1,6 +1,7 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.DTO.MovieDTO;
+import com.rico.movieviewer.restservice.enums.MovieCalls;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
 import org.apache.commons.io.IOUtils;
