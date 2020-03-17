@@ -21,5 +21,4 @@ public class AllMovieDTO {
         this.name = name;
         this.releaseDate = releaseDate;
     }
-
 }
