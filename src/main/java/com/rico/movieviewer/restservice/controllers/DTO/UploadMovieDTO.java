@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Date;
 
 
-public class MovieDTO {
+public class UploadMovieDTO {
 
     @Getter
     private String movieName;
@@ -18,7 +18,7 @@ public class MovieDTO {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date releaseDate;
 
-    public MovieDTO(String movieName, String description, Date releaseDate){
+    public UploadMovieDTO(String movieName, String description, Date releaseDate){
         this.movieName = movieName;
         this.description = description;
         this.releaseDate  = releaseDate;

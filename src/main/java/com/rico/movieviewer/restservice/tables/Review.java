@@ -2,9 +2,9 @@ package com.rico.movieviewer.restservice.tables;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 
 @Entity
@@ -13,8 +13,11 @@ public class Review {
 
     @Id
     @Getter @Setter
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid")
     @Column(name = "review_id")
-    private UUID reviewId;
+    private String reviewId;
 
     @Getter @Setter
     @Column(name = "comment")
@@ -22,12 +25,14 @@ public class Review {
 
     @Getter @Setter
     @Column(name = "star_number")
-    private Integer starNumber;
+    private int starNumber;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;

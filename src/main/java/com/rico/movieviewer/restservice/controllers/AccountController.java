@@ -1,8 +1,8 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.json.JsonManager;
-import com.rico.movieviewer.restservice.enums.MovieCalls;
 import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
+import com.rico.movieviewer.restservice.mappings.MovieMappings;
 import com.rico.movieviewer.restservice.repositories.UserRepository;
 import com.rico.movieviewer.restservice.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,8 @@ public class AccountController {
     public ResponseEntity<?> loginUser(String username, String password) {
         for (User user : userRepository.findAll()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                String rolePrefix = "ROLE_";
-                String token = jwtProvider.createToken(user.getUserId(), user.getUsername(), rolePrefix + user.getRole());
-                return new ResponseEntity<>(jsonManager.loginJson(token, MovieCalls.ALLAPPROVEDMOVIES.toString(),
-                        MovieCalls.SINGLEMOVIE.toString()),
+                String token = jwtProvider.createToken(user.getUserId(), user.getUsername(), "ROLE_" + user.getRole());
+                return new ResponseEntity<>(jsonManager.loginJson(token, MovieMappings.ALL_APPROVED_MOVIES, MovieMappings.UPLOAD_MOVIE),
                         HttpStatus.OK);
             }
         }

@@ -8,23 +8,23 @@ import java.util.Map;
 @Component
 public class JsonManager {
 
-    private Map<Object, Object> jsonObject;
+    private Map<Object, Object> map;
 
-    public Map<Object, Object> loginJson(String token, String allMoviesLink, String singleMovieLink){
+    public Map<Object, Object> loginJson(String token, String allMoviesLink, String uploadMovieLink){
         initJsonObject();
-        jsonObject.put("token", token);
-        jsonObject.put("all-movies", allMoviesLink);
-        jsonObject.put("single-movie", singleMovieLink);
-        return jsonObject;
+        map.put("token", token);
+        map.put("all-movies", allMoviesLink);
+        map.put("upload-movie", uploadMovieLink);
+        return map;
     }
 
     public Map<Object, Object> exceptionJson(String message){
         initJsonObject();
-        jsonObject.put("exception", message);
-        return jsonObject;
+        map.put("exception", message);
+        return map;
     }
 
     private void initJsonObject(){
-        jsonObject = new HashMap<>();
+        map = new HashMap<>();
     }
 }

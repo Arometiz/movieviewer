@@ -1,6 +1,6 @@
 package com.rico.movieviewer.restservice.tables;
 
-import com.rico.movieviewer.restservice.controllers.DTO.MovieDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,8 +27,9 @@ public class Movie {
     private String name;
 
     @Getter @Setter
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "movie_release")
-    private Date movieRelease;
+    private Date releaseDate;
 
     @Getter @Setter
     @Column(name = "description")

@@ -3,6 +3,7 @@ package com.rico.movieviewer.restservice.tables;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +15,9 @@ public class User {
 
     @Id
     @Getter @Setter
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid")
     @Column(name = "user_id")
     private String userId;
 

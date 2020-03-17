@@ -40,7 +40,7 @@ public class JwtProvider {
     }
 
     public String getUserIdFromToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getId();
     }
 
     public String getUsernameFromToken(String token) {
