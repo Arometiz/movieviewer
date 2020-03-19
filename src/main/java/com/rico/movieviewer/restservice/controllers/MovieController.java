@@ -9,6 +9,7 @@ import com.rico.movieviewer.restservice.repositories.UserRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
 import com.rico.movieviewer.restservice.tables.Review;
 import org.apache.commons.io.IOUtils;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -99,6 +100,17 @@ public class MovieController {
             review.setStarNumber(Integer.parseInt(reviewDTO.getStarNumber()));
             review.setMovie(movieRepository.findById(reviewDTO.getMovie_id()).get());
             reviewRepository.save(review);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = MovieMappings.DELETE_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteReview(@RequestParam(value = "review_id")String review_id){
+        try{
+            Review review = reviewRepository.findById(review_id).get();
+            reviewRepository.delete(review);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

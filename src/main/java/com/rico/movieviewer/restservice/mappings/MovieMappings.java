@@ -9,4 +9,5 @@ public interface MovieMappings {
         String APPROVE_UPLOADED_MOVIE = "/approve-uploaded-movie";
         String DELETE_UPLOADED_MOVIE = "/delete-uploaded-movie";
         String ADD_NEW_REVIEW = "/add-new-review";
+        String DELETE_REVIEW = "/delete-review";
 }
