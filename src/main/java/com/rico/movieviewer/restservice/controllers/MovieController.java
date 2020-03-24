@@ -9,18 +9,16 @@ import com.rico.movieviewer.restservice.repositories.UserRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
 import com.rico.movieviewer.restservice.tables.Review;
 import org.apache.commons.io.IOUtils;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.Convert;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/movie")
 public class MovieController {
 
@@ -66,6 +64,10 @@ public class MovieController {
     public byte[] getImageByMovieId(@RequestParam(value = "movie_id")String movie_id) throws IOException {
         InputStream in = getClass()
                 .getResourceAsStream("/images/" + movieRepository.findById(movie_id).get().getName().replace(":", "") + ".jpg");
+        if(in == null){
+            in = getClass()
+                    .getResourceAsStream("/images/Placeholder.jpg");
+        }
         return IOUtils.toByteArray(in);
     }
 
