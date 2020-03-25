@@ -13,7 +13,7 @@ public class AllMovieDTO {
     private String name;
 
     @Getter
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy")
     private Date releaseDate;
 
     public AllMovieDTO(String movie_id, String name, Date releaseDate){

@@ -27,7 +27,7 @@ public class Movie {
     private String name;
 
     @Getter @Setter
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy")
     @Column(name = "movie_release")
     private Date releaseDate;
 
