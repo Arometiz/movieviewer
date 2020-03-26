@@ -3,6 +3,7 @@ package com.rico.movieviewer.restservice.controllers;
 import com.rico.movieviewer.restservice.controllers.DTO.*;
 import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
 import com.rico.movieviewer.restservice.mappings.MovieMappings;
+import com.rico.movieviewer.restservice.repositories.GenreRepository;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.repositories.ReviewRepository;
 import com.rico.movieviewer.restservice.repositories.UserRepository;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -40,7 +42,7 @@ public class MovieController {
         returnMovieDTO.getLinks().add(new LinkDTO("movie", MovieMappings.SINGLE_MOVIE_DATA));
         returnMovieDTO.getLinks().add(new LinkDTO("moviePicture", MovieMappings.SINGLE_MOVIE_IMAGE));
         movieRepository.findAll().forEach(movie -> {if (!movie.isPending()) returnMovieDTO.getMovies().add(
-                new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate()));});
+                new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate(), movie.getGenres()));});
         return returnMovieDTO;
     }
 
@@ -50,13 +52,19 @@ public class MovieController {
         ReturnMovieDTO returnMovieDTO = new ReturnMovieDTO();
         returnMovieDTO.getLinks().add(new LinkDTO("approveMovie", MovieMappings.APPROVE_UPLOADED_MOVIE));
         movieRepository.findAll().forEach(movie -> {if (movie.isPending())  returnMovieDTO.getMovies().add(
-                new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate()));});
+                new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate(), movie.getGenres()));});
         return returnMovieDTO;
     }
 
     @GetMapping(value = MovieMappings.SINGLE_MOVIE_DATA)
-    public Movie getMovieById(@RequestParam(value = "movie_id")String movie_id){
-        return movieRepository.findById(movie_id).get();
+    public SingleMovieDTO getMovieById(@RequestParam(value = "movie_id")String movie_id){
+        SingleMovieDTO dto = new SingleMovieDTO();
+        Movie movie =  movieRepository.findById(movie_id).get();
+        reviewRepository.findAll().forEach(review -> {
+            if(review.getMovie().getMovieId().equals(movie.getMovieId())){ dto.getReviews().add(review); }
+        });
+        dto.setMovie(movie);
+        return dto;
     }
 
     @ResponseBody

@@ -1,5 +1,6 @@
 package com.rico.movieviewer.restservice.tables;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,12 +28,13 @@ public class Review {
     @Column(name = "star_number")
     private int starNumber;
 
-    @Setter
+    @Getter @Setter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Setter
+    @JsonIgnore
+    @Getter @Setter
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
