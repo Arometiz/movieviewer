@@ -1,23 +1,17 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.DTO.*;
-import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
 import com.rico.movieviewer.restservice.mappings.MovieMappings;
-import com.rico.movieviewer.restservice.repositories.GenreRepository;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.repositories.ReviewRepository;
-import com.rico.movieviewer.restservice.repositories.UserRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
-import com.rico.movieviewer.restservice.tables.Review;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -29,12 +23,6 @@ public class MovieController {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private JwtProvider jwtProvider;
 
     @GetMapping(value = MovieMappings.ALL_APPROVED_MOVIES, produces = MediaType.APPLICATION_JSON_VALUE)
     public ReturnMovieDTO getAllMovies(){
@@ -99,31 +87,5 @@ public class MovieController {
     @DeleteMapping(value = MovieMappings.DELETE_UPLOADED_MOVIE)
     public void deleteUploadedMovie(@RequestParam(value = "movie_id")String movie_id){
         movieRepository.delete(movieRepository.findById(movie_id).get());
-    }
-
-    @PostMapping(value = MovieMappings.ADD_NEW_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addNewReview(@RequestBody ReviewDTO reviewDTO, HttpServletRequest req){
-        Review review = new Review();
-        try{
-            review.setUser(userRepository.findById(jwtProvider.getUserIdFromToken(jwtProvider.resolveToken(req))).get());
-            review.setComment(reviewDTO.getComment());
-            review.setStarNumber(Integer.parseInt(reviewDTO.getStarNumber()));
-            review.setMovie(movieRepository.findById(reviewDTO.getMovie_id()).get());
-            reviewRepository.save(review);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping(value = MovieMappings.DELETE_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteReview(@RequestParam(value = "review_id")String review_id){
-        try{
-            Review review = reviewRepository.findById(review_id).get();
-            reviewRepository.delete(review);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
