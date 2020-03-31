@@ -7,6 +7,8 @@ import com.rico.movieviewer.restservice.repositories.ReviewRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +27,14 @@ public class MovieController {
     private ReviewRepository reviewRepository;
 
     @GetMapping(value = MovieMappings.ALL_APPROVED_MOVIES, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ReturnMovieDTO getAllMovies(){
+    public ReturnMovieDTO getAllMovies(@RequestParam(value = "page") int page){
+        Pageable pageable = PageRequest.of(page, 16);
         ReturnMovieDTO returnMovieDTO = new ReturnMovieDTO();
         returnMovieDTO.getLinks().add(new LinkDTO("movie", MovieMappings.SINGLE_MOVIE_DATA));
         returnMovieDTO.getLinks().add(new LinkDTO("moviePicture", MovieMappings.SINGLE_MOVIE_IMAGE));
-        movieRepository.findAll().forEach(movie -> {if (!movie.isPending()) returnMovieDTO.getMovies().add(
+        movieRepository.findAll(pageable).forEach(movie -> {if (!movie.isPending()) returnMovieDTO.getMovies().add(
                 new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate(), movie.getGenres()));});
+        returnMovieDTO.setTotalMovieCount(movieRepository.countMovieByPending(false));
         return returnMovieDTO;
     }
 
@@ -41,6 +45,7 @@ public class MovieController {
         returnMovieDTO.getLinks().add(new LinkDTO("approveMovie", MovieMappings.APPROVE_UPLOADED_MOVIE));
         movieRepository.findAll().forEach(movie -> {if (movie.isPending())  returnMovieDTO.getMovies().add(
                 new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate(), movie.getGenres()));});
+        returnMovieDTO.setTotalMovieCount(movieRepository.countMovieByPending(true));
         return returnMovieDTO;
     }
 
@@ -73,6 +78,8 @@ public class MovieController {
         movie.setName(uploadMovieDTO.getMovieName());
         movie.setDescription(uploadMovieDTO.getDescription());
         movie.setReleaseDate(uploadMovieDTO.getReleaseDate());
+        movie.setGenres(uploadMovieDTO.getGenres());
+        movie.setYoutube_id(uploadMovieDTO.getYoutube_id());
         movie.setPending(true);
         movieRepository.save(movie);
     }

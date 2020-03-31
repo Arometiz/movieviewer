@@ -14,13 +14,12 @@ public class AllMovieDTO {
     private String name;
 
     @Getter
-    @JsonFormat(pattern = "yyyy")
-    private Date releaseDate;
+    private String releaseDate;
 
     @Getter
     private List<Genre> genres;
 
-    public AllMovieDTO(String movie_id, String name, Date releaseDate, List<Genre> genres) {
+    public AllMovieDTO(String movie_id, String name, String releaseDate, List<Genre> genres) {
         this.movie_id = movie_id;
         this.name = name;
         this.releaseDate = releaseDate;
