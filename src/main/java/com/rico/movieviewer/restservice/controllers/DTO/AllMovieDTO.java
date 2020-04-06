@@ -1,6 +1,5 @@
 package com.rico.movieviewer.restservice.controllers.DTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rico.movieviewer.restservice.tables.Genre;
 import lombok.Getter;
 
@@ -24,6 +23,5 @@ public class AllMovieDTO {
         this.name = name;
         this.releaseDate = releaseDate;
         this.genres = genres;
-
     }
 }

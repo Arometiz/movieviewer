@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MovieRepository extends JpaRepository<Movie, String> {
 
     Page<Movie> findAll(Pageable pageable);
-    long countMovieByPending(boolean option);
+    long countMovieByPending(boolean pending);
 }

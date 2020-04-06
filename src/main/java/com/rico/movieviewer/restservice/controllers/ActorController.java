@@ -1,6 +1,6 @@
 package com.rico.movieviewer.restservice.controllers;
 
-import com.rico.movieviewer.restservice.mappings.ActorMappings;
+import com.rico.movieviewer.restservice.mappings.ActorEndpoints;
 import com.rico.movieviewer.restservice.repositories.ActorRepository;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class ActorController {
     private ActorRepository actorRepository;
 
     @ResponseBody
-    @GetMapping(value = ActorMappings.ACTOR_PICTURE, produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = ActorEndpoints.ACTOR_PICTURE, produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImageByActorId(@RequestParam(value = "actor_id")String actor_id) throws IOException {
         InputStream in = getClass()
                 .getResourceAsStream("/actorImages/" + actorRepository.findById(actor_id).get().getName().replaceAll("[\\.$|:]", "") + ".jpg");

@@ -1,7 +1,7 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.DTO.*;
-import com.rico.movieviewer.restservice.mappings.MovieMappings;
+import com.rico.movieviewer.restservice.mappings.MovieEndpoints;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.repositories.ReviewRepository;
 import com.rico.movieviewer.restservice.tables.Movie;
@@ -26,12 +26,12 @@ public class MovieController {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    @GetMapping(value = MovieMappings.ALL_APPROVED_MOVIES, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = MovieEndpoints.ALL_APPROVED_MOVIES, produces = MediaType.APPLICATION_JSON_VALUE)
     public ReturnMovieDTO getAllMovies(@RequestParam(value = "page") int page){
         Pageable pageable = PageRequest.of(page, 16);
         ReturnMovieDTO returnMovieDTO = new ReturnMovieDTO();
-        returnMovieDTO.getLinks().add(new LinkDTO("movie", MovieMappings.SINGLE_MOVIE_DATA));
-        returnMovieDTO.getLinks().add(new LinkDTO("moviePicture", MovieMappings.SINGLE_MOVIE_IMAGE));
+        returnMovieDTO.getLinks().add(new LinkDTO("movie", MovieEndpoints.SINGLE_MOVIE_DATA));
+        returnMovieDTO.getLinks().add(new LinkDTO("moviePicture", MovieEndpoints.SINGLE_MOVIE_IMAGE));
         movieRepository.findAll(pageable).forEach(movie -> {if (!movie.isPending()) returnMovieDTO.getMovies().add(
                 new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate(), movie.getGenres()));});
         returnMovieDTO.setTotalMovieCount(movieRepository.countMovieByPending(false));
@@ -39,29 +39,28 @@ public class MovieController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
-    @GetMapping(value = MovieMappings.ALL_PENDING_MOVIES)
-    public ReturnMovieDTO getAllPendingMovies(){
+    @GetMapping(value = MovieEndpoints.ALL_PENDING_MOVIES)
+    public ReturnMovieDTO getAllPendingMovies(@RequestParam(value = "page") int page){
+        Pageable pageable = PageRequest.of(page, 16);
         ReturnMovieDTO returnMovieDTO = new ReturnMovieDTO();
-        returnMovieDTO.getLinks().add(new LinkDTO("approveMovie", MovieMappings.APPROVE_UPLOADED_MOVIE));
-        movieRepository.findAll().forEach(movie -> {if (movie.isPending())  returnMovieDTO.getMovies().add(
+        returnMovieDTO.getLinks().add(new LinkDTO("approveMovie", MovieEndpoints.APPROVE_UPLOADED_MOVIE));
+        movieRepository.findAll(pageable).forEach(movie -> {if (movie.isPending())  returnMovieDTO.getMovies().add(
                 new AllMovieDTO(movie.getMovieId(), movie.getName(), movie.getReleaseDate(), movie.getGenres()));});
         returnMovieDTO.setTotalMovieCount(movieRepository.countMovieByPending(true));
         return returnMovieDTO;
     }
 
-    @GetMapping(value = MovieMappings.SINGLE_MOVIE_DATA)
+    @GetMapping(value = MovieEndpoints.SINGLE_MOVIE_DATA)
     public SingleMovieDTO getMovieById(@RequestParam(value = "movie_id")String movie_id){
         SingleMovieDTO dto = new SingleMovieDTO();
         Movie movie =  movieRepository.findById(movie_id).get();
-        reviewRepository.findAll().forEach(review -> {
-            if(review.getMovie().getMovieId().equals(movie.getMovieId())){ dto.getReviews().add(review); }
-        });
+        dto.setReviews(reviewRepository.findByMovie(movie));
         dto.setMovie(movie);
         return dto;
     }
 
     @ResponseBody
-    @GetMapping(value = MovieMappings.SINGLE_MOVIE_IMAGE, produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = MovieEndpoints.SINGLE_MOVIE_IMAGE, produces = MediaType.IMAGE_JPEG_VALUE)
     public byte[] getImageByMovieId(@RequestParam(value = "movie_id")String movie_id) throws IOException {
         InputStream in = getClass()
                 .getResourceAsStream("/images/" + movieRepository.findById(movie_id).get().getName().replace(":", "") + ".jpg");
@@ -72,7 +71,7 @@ public class MovieController {
         return IOUtils.toByteArray(in);
     }
 
-    @PostMapping(value = MovieMappings.UPLOAD_MOVIE)
+    @PostMapping(value = MovieEndpoints.UPLOAD_MOVIE)
     public void uploadNewMovie(@RequestBody UploadMovieDTO uploadMovieDTO){
         Movie movie = new Movie();
         movie.setName(uploadMovieDTO.getMovieName());
@@ -84,14 +83,14 @@ public class MovieController {
         movieRepository.save(movie);
     }
 
-    @PostMapping(value = MovieMappings.APPROVE_UPLOADED_MOVIE)
+    @PostMapping(value = MovieEndpoints.APPROVE_UPLOADED_MOVIE)
     public void approvedUploadedMovie(@RequestParam(value = "movie_id")String movie_id){
         Movie movie = movieRepository.findById(movie_id).get();
         movie.setPending(false);
         movieRepository.save(movie);
     }
 
-    @DeleteMapping(value = MovieMappings.DELETE_UPLOADED_MOVIE)
+    @DeleteMapping(value = MovieEndpoints.DELETE_UPLOADED_MOVIE)
     public void deleteUploadedMovie(@RequestParam(value = "movie_id")String movie_id){
         movieRepository.delete(movieRepository.findById(movie_id).get());
     }

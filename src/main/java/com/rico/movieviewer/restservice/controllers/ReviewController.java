@@ -2,7 +2,7 @@ package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.DTO.ReviewDTO;
 import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
-import com.rico.movieviewer.restservice.mappings.MovieMappings;
+import com.rico.movieviewer.restservice.mappings.MovieEndpoints;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.repositories.ReviewRepository;
 import com.rico.movieviewer.restservice.repositories.UserRepository;
@@ -33,7 +33,7 @@ public class ReviewController {
     @Autowired
     private MovieRepository movieRepository;
 
-    @PostMapping(value = MovieMappings.ADD_NEW_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = MovieEndpoints.ADD_NEW_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addNewReview(@RequestBody ReviewDTO reviewDTO, HttpServletRequest req){
         Review review = new Review();
         try{
@@ -48,7 +48,7 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = MovieMappings.DELETE_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = MovieEndpoints.DELETE_REVIEW, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteReview(@RequestParam(value = "review_id")String review_id){
         try{
             Review review = reviewRepository.findById(review_id).get();
