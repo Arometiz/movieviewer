@@ -1,6 +1,7 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.DTO.*;
+import com.rico.movieviewer.restservice.logic.movie.MovieCalculator;
 import com.rico.movieviewer.restservice.mappings.MovieEndpoints;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
 import com.rico.movieviewer.restservice.repositories.ReviewRepository;
@@ -52,9 +53,11 @@ public class MovieController {
 
     @GetMapping(value = MovieEndpoints.SINGLE_MOVIE_DATA)
     public SingleMovieDTO getMovieById(@RequestParam(value = "movie_id")String movie_id){
+        MovieCalculator calculator = new MovieCalculator();
         SingleMovieDTO dto = new SingleMovieDTO();
         Movie movie =  movieRepository.findById(movie_id).get();
         dto.setReviews(reviewRepository.findByMovie(movie));
+        dto.setMovieRating(calculator.calculateMovieStar(movie, reviewRepository));
         dto.setMovie(movie);
         return dto;
     }

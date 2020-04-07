@@ -1,6 +1,7 @@
 package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.DTO.ReviewDTO;
+import com.rico.movieviewer.restservice.controllers.DTO.SingleMovieDTO;
 import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
 import com.rico.movieviewer.restservice.mappings.MovieEndpoints;
 import com.rico.movieviewer.restservice.repositories.MovieRepository;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 

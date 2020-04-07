@@ -13,6 +13,9 @@ public class SingleMovieDTO {
     Movie movie;
 
     @Getter @Setter
+    double movieRating;
+
+    @Getter @Setter
     List<Review> reviews;
 
     public SingleMovieDTO(){
