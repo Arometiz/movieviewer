@@ -10,6 +10,9 @@ import java.math.RoundingMode;
 public class MovieCalculator {
 
     public double calculateMovieStar(Movie movie, ReviewRepository repo){
+        if(repo.countAllByMovie(movie) == 0){
+            return 0;
+        }
         long reviewCount = repo.countAllByMovie(movie);
         long totalNumber = 0;
         for(Review review : repo.findByMovie(movie)) {
