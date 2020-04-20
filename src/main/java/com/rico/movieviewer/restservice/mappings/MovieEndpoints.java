@@ -1,6 +1,6 @@
 package com.rico.movieviewer.restservice.mappings;
 
-public interface MovieMappings {
+public interface MovieEndpoints {
         String ALL_APPROVED_MOVIES = "/all-approved-movies";
         String ALL_PENDING_MOVIES = "/all-pending-movies";
         String SINGLE_MOVIE_DATA = "/single-movie-data";

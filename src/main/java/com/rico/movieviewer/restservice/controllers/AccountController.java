@@ -2,7 +2,7 @@ package com.rico.movieviewer.restservice.controllers;
 
 import com.rico.movieviewer.restservice.controllers.json.JsonManager;
 import com.rico.movieviewer.restservice.logic.jwt.JwtProvider;
-import com.rico.movieviewer.restservice.mappings.MovieMappings;
+import com.rico.movieviewer.restservice.mappings.MovieEndpoints;
 import com.rico.movieviewer.restservice.repositories.UserRepository;
 import com.rico.movieviewer.restservice.tables.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class AccountController {
         for (User user : userRepository.findAll()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 String token = jwtProvider.createToken(user.getUserId(), user.getUsername(), "ROLE_" + user.getRole());
-                return new ResponseEntity<>(jsonManager.loginJson(token, MovieMappings.ALL_APPROVED_MOVIES, MovieMappings.UPLOAD_MOVIE),
-                        HttpStatus.OK);
+                return new ResponseEntity<>(jsonManager.loginJson(token, MovieEndpoints.ALL_APPROVED_MOVIES, MovieEndpoints.UPLOAD_MOVIE,
+                        MovieEndpoints.SINGLE_MOVIE_IMAGE), HttpStatus.OK);
             }
         }
         return new ResponseEntity<>(jsonManager.exceptionJson("Wrong username or password"), HttpStatus.BAD_REQUEST);

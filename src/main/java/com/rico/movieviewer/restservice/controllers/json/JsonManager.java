@@ -10,11 +10,12 @@ public class JsonManager {
 
     private Map<Object, Object> map;
 
-    public Map<Object, Object> loginJson(String token, String allMoviesLink, String uploadMovieLink){
+    public Map<Object, Object> loginJson(String token, String allMoviesLink, String uploadMovieLink, String moviePicture){
         initJsonObject();
         map.put("token", token);
         map.put("all-movies", allMoviesLink);
         map.put("upload-movie", uploadMovieLink);
+        map.put("movie-image", moviePicture);
         return map;
     }
 

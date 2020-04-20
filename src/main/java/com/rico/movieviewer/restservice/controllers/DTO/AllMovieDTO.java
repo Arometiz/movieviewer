@@ -1,9 +1,9 @@
 package com.rico.movieviewer.restservice.controllers.DTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.rico.movieviewer.restservice.tables.Genre;
 import lombok.Getter;
 
-import java.util.Date;
+import java.util.*;
 
 public class AllMovieDTO {
     @Getter
@@ -13,12 +13,15 @@ public class AllMovieDTO {
     private String name;
 
     @Getter
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date releaseDate;
+    private String releaseDate;
 
-    public AllMovieDTO(String movie_id, String name, Date releaseDate){
+    @Getter
+    private List<Genre> genres;
+
+    public AllMovieDTO(String movie_id, String name, String releaseDate, List<Genre> genres) {
         this.movie_id = movie_id;
         this.name = name;
         this.releaseDate = releaseDate;
+        this.genres = genres;
     }
 }

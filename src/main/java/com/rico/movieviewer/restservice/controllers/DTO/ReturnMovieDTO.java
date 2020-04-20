@@ -14,6 +14,9 @@ public class ReturnMovieDTO {
     @Getter @Setter
     public List<LinkDTO> links;
 
+    @Getter @Setter
+    private long totalMovieCount;
+
     public ReturnMovieDTO(){
         movies = new ArrayList<>();
         links = new ArrayList<>();
