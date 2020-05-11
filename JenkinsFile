@@ -6,9 +6,9 @@ pipeline {
     }
     environment {
         ENV = "test"
-        gpg_secret = credentials("gpg-secret")
-        gpg_trust = credentials("gpg-ownertrust")
-        gpg_passphrase = credentials("gpg-passphrase")
+        gpg_secret = credentials("gpg-secret-rico")
+        gpg_trust = credentials("gpg-ownertrust-rico")
+        gpg_passphrase = credentials("gpg-passphrase-rico")
     }
     stages {
         stage("Import GPG Keys") {
