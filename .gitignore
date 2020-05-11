@@ -30,3 +30,6 @@ build/
 ### VS Code ###
 .vscode/
 .gitsecret/keys/random_seed
+
+### Ignore secrets ###
+/src/main/resources/prod/application.properties
