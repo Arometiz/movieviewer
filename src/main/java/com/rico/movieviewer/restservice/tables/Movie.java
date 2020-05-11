@@ -1,53 +1,64 @@
 package com.rico.movieviewer.restservice.tables;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+@Getter @Setter
 @Entity
 @Table(name = "movie")
 public class Movie {
+
     @Id
+    @Getter @Setter
     @Column(name = "movie_id")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",
+            strategy = "uuid")
     private String movieId;
 
+    @Getter @Setter
     @Column(name = "name")
     private String name;
 
+    @Getter @Setter
     @Column(name = "movie_release")
-    private java.sql.Date movieRelease;
+    private String releaseDate;
 
+    @Getter @Setter
     @Column(name = "description")
     private String description;
 
+    @Getter @Setter
+    @Column(name = "youtube_id")
+    private String youtube_id;
 
-    public String getMovieId() {
-        return this.movieId;
-    }
+    @Getter @Setter
+    @Column(name = "pending")
+    private boolean pending;
 
-    public void setMovieId(String movieId) {
-        this.movieId = movieId;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "movie")
+    private Set<Review> reviews;
 
-    public String getName() {
-        return this.name;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "movie_genre",
+            joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "genre_id"))
+    private List<Genre> genres;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public java.sql.Date getMovieRelease() {
-        return this.movieRelease;
-    }
-
-    public void setMovieRelease(java.sql.Date movieRelease) {
-        this.movieRelease = movieRelease;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "movie_actor",
+            joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id", referencedColumnName = "actor_id"))
+    private List<Actor> actors;
 }
