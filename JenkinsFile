@@ -39,9 +39,7 @@ pipeline {
         stage('Deploy') {
                      steps {
                          echo 'Deploying...'
-                         sh 'docker stop moviewviewerapi'
                          sh 'docker build --tag vimuens/movieviewer:latest'
-                         sh 'docker start movieviewerapi'
                      }
                  }
         }
