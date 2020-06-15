@@ -35,7 +35,8 @@ pipeline {
                 echo 'Testing...'
                 sh 'mvn test'
             }
-        } stage('Deploy') {
+        }
+        stage('Deploy') {
                      steps {
                          echo 'Deploying...'
                          sh 'docker stop moviewviewerapi'
