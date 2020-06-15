@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy') {
                      steps {
                          echo 'Deploying...'
-                         sh 'docker build  - < Dockerfile --tag vimuens/movieviewer:latest'
+                         sh "docker build -t vimuens/movieviewerapi:latest ."
                      }
                  }
         }
