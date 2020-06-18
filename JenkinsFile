@@ -41,6 +41,8 @@ pipeline {
                          echo 'Deploying...'
                          sh 'docker stop movieviewerapi'
                          sh "docker build -t vimuens/movieviewerapi:latest ."
+                         sh 'docker push localhost:5000/vimuens/movieviewerapi:latest'
+                         sh 'docker pull vimuens/movieviewerapi:latest'
                          sh 'docker start movieviewerapi'
                      }
                  }
