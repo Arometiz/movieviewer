@@ -39,9 +39,11 @@ pipeline {
         stage('Deploy') {
                      steps {
                          echo 'Deploying...'
-                         sh 'docker stop movieviewerapi'
-                         sh "docker build -t vimuens/movieviewerapi:latest ."
-                         sh 'docker start movieviewerapi'
+                         sh "docker stop movieviewerapi"
+                         sh "docker build -t vimuens/movieviewerapi:${BUILD_NUMBER} ."
+                         sh "docker tag vimuens/movieviewerapi:${BUILD_NUMBER} vimuens/movieviewerapi:latest"
+                         sh "docker rm --force movieviewerapi"
+                         sh "docker run -d -p 8085:3030 --name movieviewerapi -e ENV=prod vimuens/movieviewerapi:latest"
                      }
                  }
         }
